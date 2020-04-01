@@ -3,6 +3,20 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
 
+
+allowed_ranks_file = open('allowed-roles.txt', 'r')
+allowed_ranks = allowed_ranks_file.readlines()
+ranks = [x.strip() for x in allowed_ranks]
+
+
+def isImmune(author):
+    for user_role in author.roles:
+        for rank in ranks:
+            if rank == user_role.id:
+                return True
+    return False
+
+
 Client = discord.Client()
 bot = commands.Bot(command_prefix="%")
 
@@ -17,7 +31,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if message.content.startswith("http"):
+    if ("http" in message.content) or ("www." in message.content) and not isImmune(message.author):
         try:
             await bot.delete_message(message)
         except:

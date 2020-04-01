@@ -1,4 +1,5 @@
 token.txt
+allowed-roles.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
